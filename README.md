@@ -1,4 +1,4 @@
-<img src=".github/og_image_square.png />
+<img src=".github/dataquestion_og_square.png />
 
 # DataQuestion Desktop App - Community Edition
 
