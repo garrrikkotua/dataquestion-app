@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[cmdk-dataquestion-footer] {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  background: var(--gray1);
+  bottom: 0;
+  padding: 8px;
+  border-top: 1px solid var(--gray6);
+  border-radius: 0 0 12px 12px;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 207 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 207 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 207 84% 4.9%;
+    --primary: 206 83.2% 50%;
+    --primary-foreground: 205 80% 98%;
+    --secondary: 205 80% 96.1%;
+    --secondary-foreground: 207 47.4% 11.2%;
+    --muted: 205 80% 96.1%;
+    --muted-foreground: 204 65.3% 63.9%;
+    --accent: 205 80% 96.1%;
+    --accent-foreground: 207 47.4% 11.2%;
+    --destructive: 0 84.2% 80.2%;
+    --destructive-foreground: 205 80% 98%;
+    --border: 207 80% 95%;
+    --input: 207 80% 95%;
+    --ring: 206 83.2% 50%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 195 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 195 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 195 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 195 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 195 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 195 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    @apply font-sans;
+  }
+}
