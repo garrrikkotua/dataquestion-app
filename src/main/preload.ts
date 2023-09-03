@@ -6,6 +6,7 @@ import {
   IpcRendererEvent,
   MessageBoxSyncOptions,
 } from 'electron';
+import { ChatMessage } from './lib/types';
 
 export type Channels = 'ipc-example';
 
@@ -58,23 +59,15 @@ const electronHandler = {
     },
   },
   channels: {
-    startCommunication: (element: any, callback: Function) => {
+    chatWithStreaming: (msg: ChatMessage, callback: Function) => {
       const { port1, port2 } = new MessageChannel();
       port1.onmessage = (event) => {
         callback(event.data);
       };
-      ipcRenderer.postMessage('give-me-a-stream', { element, count: 10 }, [
-        port2,
-      ]);
-      return port1;
+      ipcRenderer.postMessage('chat-stream', msg, [port2]);
     },
-    chat: (prompt: string, callback: Function) => {
-      const { port1, port2 } = new MessageChannel();
-      port1.onmessage = (event) => {
-        callback(event.data);
-      };
-      ipcRenderer.postMessage('chat', prompt, [port2]);
-      return port1;
+    chat: (msg: ChatMessage): Promise<string> => {
+      return ipcRenderer.invoke('chat', msg);
     },
   },
 };

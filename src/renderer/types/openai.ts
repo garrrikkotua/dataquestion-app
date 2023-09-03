@@ -5,6 +5,10 @@ export interface ChatGPTMessage {
   content: string;
 }
 
+export interface ChatMessage {
+  prompt: string;
+}
+
 export interface OpenAIStreamPayload {
   model: string;
   messages: ChatGPTMessage[];

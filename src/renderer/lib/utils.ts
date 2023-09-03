@@ -1,14 +1,18 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { ChatMessage } from '../types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const makeStreamingRequest = (element: any, callback: Function) => {
-  window.electron.channels.startCommunication(element, callback);
-};
+export async function completeWithStreaming(
+  msg: ChatMessage,
+  callback: Function
+) {
+  return window.electron.channels.chatWithStreaming(msg, callback);
+}
 
-export const randomChat = (element: any, callback: Function) => {
-  window.electron.channels.chat(element, callback);
-};
+export async function complete(msg: ChatMessage): Promise<string> {
+  return window.electron.channels.chat(msg);
+}

@@ -13,6 +13,7 @@ import DataQuestionLogo from '../../../assets/dataquestion.svg';
 import PostgresSchemaComponent from './add-postgres-schema';
 import QueryGenerator from './query-generator';
 import Addopenaikey from './add-openai-key';
+import { Button } from './ui/button';
 
 enum CommandPage {
   SearchDatabases,
@@ -175,7 +176,7 @@ function CommandSearch() {
             <CommandSeparator />
             <CommandGroup heading="Settings">
               <CommandItem onSelect={() => goNext(CommandPage.License)}>
-                License
+                Get a Pro version 🚀
               </CommandItem>
               <CommandItem onSelect={() => goNext(CommandPage.AddOpenAIKey)}>
                 Add OpenAI key
@@ -202,10 +203,18 @@ function CommandSearch() {
         )}
 
         {page === CommandPage.License && (
-          <>
-            <CommandItem>Activate License</CommandItem>
-            <CommandItem>Deactivate License</CommandItem>
-          </>
+          <div className="flex flex-col items-center h-full gap-2 mt-4">
+            <h1 className="text-center">
+              In a pro version, you can add multiple databases and use our AI
+              service istead of bringing your own key. It is cheaper if you
+              generate a lot of queries.
+            </h1>
+            <Button>
+              <a href="https://dataquestion.io" target="blank" rel="noreferrer">
+                Get a Pro version
+              </a>
+            </Button>
+          </div>
         )}
 
         {page === CommandPage.ManageSchema && (

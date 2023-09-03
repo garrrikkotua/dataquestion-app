@@ -14,6 +14,7 @@ export interface StoreType {
     };
   };
   openAIKey: string;
+  gptVersion: 'GPT-3.5' | 'GPT-4';
   licenseKey: string;
   isLicenseKeyValid: boolean;
 }
@@ -25,6 +26,7 @@ export const AppStore = new Store<StoreType>({
     openAIKey: '',
     licenseKey: '',
     isLicenseKeyValid: false,
+    gptVersion: 'GPT-3.5',
   },
   schema: {
     databaseList: {
@@ -62,6 +64,10 @@ export const AppStore = new Store<StoreType>({
     },
     isLicenseKeyValid: {
       type: 'boolean',
+    },
+    gptVersion: {
+      type: 'string',
+      enum: ['GPT-3.5', 'GPT-4'],
     },
   },
 });

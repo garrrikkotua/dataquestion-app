@@ -24,8 +24,9 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import { chat } from './lib/ai';
+import { chat, chatWithStreaming } from './lib/ai';
 import { AppStore } from './lib/store';
+import { ChatMessage } from './lib/types';
 
 // IPC listener
 ipcMain.handle('electron-store-get', async (event, val) => {
@@ -62,36 +63,14 @@ ipcMain.on('show-message-box', (event, options): number => {
   return dialog.showMessageBoxSync(options);
 });
 
-ipcMain.on('give-me-a-stream', (event, msg) => {
+ipcMain.on('chat-stream', async (event, msg: ChatMessage) => {
   // The renderer has sent us a MessagePort that it wants us to send our
   // response over.
 
   const [replyPort] = event.ports;
-
-  // Here we send the messages synchronously, but we could just as easily store
-  // the port somewhere and send messages asynchronously.
-  for (let i = 0; i < msg.count; i++) {
-    replyPort.postMessage(msg.element);
-  }
-
-  // We close the port when we're done to indicate to the other end that we
-  // won't be sending any more messages. This isn't strictly necessary--if we
-  // didn't explicitly close the port, it would eventually be garbage
-  // collected, which would also trigger the 'close' event in the renderer.
-  replyPort.close();
-});
-
-ipcMain.on('chat', async (event, msg: string) => {
-  // The renderer has sent us a MessagePort that it wants us to send our
-  // response over.
-
-  const [replyPort] = event.ports;
-
-  // Here we send the messages synchronously, but we could just as easily store
-  // the port somewhere and send messages asynchronously.
 
   try {
-    await chat(replyPort, AppStore, msg);
+    await chatWithStreaming(replyPort, AppStore, msg);
   } catch (error) {
     dialog.showErrorBox(
       'Error',
@@ -99,6 +78,17 @@ ipcMain.on('chat', async (event, msg: string) => {
     );
   } finally {
     replyPort.close();
+  }
+});
+
+ipcMain.handle('chat', async (event, msg: ChatMessage) => {
+  try {
+    return await chat(AppStore, msg);
+  } catch (error) {
+    dialog.showErrorBox(
+      'Error',
+      'Something went wrong when calling OpenAI. Try again later or check your API key.'
+    );
   }
 });
 
@@ -248,17 +238,6 @@ app
     tray = new Tray(path.join(__dirname, '../../assets/dqTemplate.png'));
 
     const contextMenu = Menu.buildFromTemplate([
-      {
-        label: 'Item 1',
-        type: 'normal',
-        click: () => console.log('Item 1 clicked'),
-      },
-      {
-        label: 'Item 2',
-        type: 'normal',
-        click: () => console.log('Item 2 clicked'),
-      },
-      { type: 'separator' },
       { label: 'Quit', type: 'normal', click: () => app.quit() },
     ]);
 

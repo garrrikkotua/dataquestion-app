@@ -145,11 +145,11 @@ function PostgresSchemaComponent() {
     return (
       <div className="flex flex-col items-center h-full gap-2 mt-4">
         <h1 className="text-center">
-          You can only add one database with the free version
+          You can only add one database with the community version
         </h1>
         <Button>
           <a href="https://dataquestion.io" target="blank" rel="noreferrer">
-            Get a license
+            Get a Pro version
           </a>
         </Button>
       </div>
